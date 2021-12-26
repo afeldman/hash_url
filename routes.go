@@ -52,6 +52,31 @@ type answer struct {
 	Url string `json:"url"`
 }
 
+func delete_unique(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("Content-type", "application/json")
+
+	vars := mux.Vars(req)
+	hash := vars["hash"]
+
+	entry := deletedata(hash)
+
+	var ans answer
+	if entry == nil {
+		ans.Url = "none"
+		res.WriteHeader(http.StatusBadRequest)
+	} else {
+		ans.Url = entry.Url.String()
+		res.WriteHeader(http.StatusOK)
+	}
+
+	result, err := json.Marshal(ans)
+	checkError(err)
+
+	log.Debugln(string(result))
+
+	res.Write(result)
+}
+
 func get_unique(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "application/json")
 

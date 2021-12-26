@@ -78,6 +78,26 @@ func getdata(hash string) *DB_entry {
 	return entry
 }
 
+func deletedata(hash string) *DB_entry {
+	term := getorcreate()
+
+	entry := getdata(hash)
+
+	if entry == nil {
+		return nil
+	}
+
+	cur, err := term.Get(hash).Delete().Run(Session)
+	checkError(err)
+	if cur.IsNil() {
+		return nil
+	}
+	defer cur.Close()
+
+	return entry
+
+}
+
 func contains(s []string, searchterm string) bool {
 	i := sort.SearchStrings(s, searchterm)
 	return i < len(s) && s[i] == searchterm

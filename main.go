@@ -44,6 +44,7 @@ func main() {
 
 	r.HandleFunc("/{hash}", get_unique).Methods("GET")
 	r.HandleFunc("/", post_unique).Methods("POST")
+	r.HandleFunc("/{hash}", delete_unique).Methods("DELETE")
 
 	server_Address := env.GetEnvOrDefault("UNIQUE_URL_ADDRESS", "localhost")
 	server_Port := env.GetEnvOrDefault("UNIQUE_URL_PORT", "1103")
