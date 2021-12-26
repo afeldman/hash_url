@@ -34,10 +34,14 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hash_url:latest
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+        run:  echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Test
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ env.RELEASE_VERSION }}
       - name: Build and push version
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hash_url:${{ steps.get_version.outputs.VERSION }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hash_url:${{ env.RELEASE_VERSION }}
