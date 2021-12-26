@@ -7,10 +7,18 @@ tasks:
     desc: Run the application
     cmds: 
     - GOFLAGS=-mod=mod go run .
+  run_docker:
+    desc: run the docker container
+    cmds:
+    - podman run --rm -it -p 1103:1103 --net=host hash_url:latest
   build: 
     desc: Build the application
     cmds: 
     - GOFLAGS=-mod=mod go build -o build/hash_url .
+  build_docker: 
+    desc: Build docker container
+    cmds: 
+    - podman build -t hash_url .
   clean: 
     desc: clean the application
     cmds: 
