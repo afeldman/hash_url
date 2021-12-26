@@ -1,0 +1,21 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  run: 
+    desc: Run the application
+    cmds: 
+    - GOFLAGS=-mod=mod go run .
+  build: 
+    desc: Build the application
+    cmds: 
+    - GOFLAGS=-mod=mod go build -o build/hash_url .
+  clean: 
+    desc: clean the application
+    cmds: 
+    - rm -rf dist
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
